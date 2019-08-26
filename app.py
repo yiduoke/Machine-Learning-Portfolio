@@ -7,7 +7,6 @@ import sqlite3
 UPLOAD_FOLDER_EX1 = 'scripts-ex1/'
 
 app = Flask(__name__)
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_EX1
 
 @app.route('/')
 def root():
@@ -50,7 +49,6 @@ def lin_reg_results():
 
 ##########################Logistic Regression##############################
 UPLOAD_FOLDER_EX2 = 'scripts-ex2/'
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_EX2
 
 @app.route('/logistic_regression.html', methods=['GET', 'POST'])
 def logistic_regression():
@@ -84,6 +82,43 @@ def logistic_regression():
 @app.route('/logistic_regression_results.html', methods=['GET', 'POST'])
 def log_reg_results():
     return render_template("logistic_regression_results.html")
+
+##########################Neural Network##############################
+UPLOAD_FOLDER_EX3 = 'scripts-ex3/'
+
+@app.route('/neural_network.html', methods=['GET', 'POST'])
+def neural_network():
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_EX3
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename('ex3upload.png')
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            myCmd = 'cd ' + UPLOAD_FOLDER_EX3 + ';'
+            myCmd += 'octave ex3_nn.m'
+            subprocess.call(myCmd, shell=True) # this blocks
+
+            copyCmd = 'cd ' + UPLOAD_FOLDER_EX3 + ';'
+            # copyCmd += 'cp plot_ex2.jpg ../static'
+            # subprocess.call(copyCmd, shell=True)
+            # need to get the predicted number!
+
+            return redirect('/neural_network_results.html')
+    return render_template("neural_network.html")
+
+@app.route('/neural_network_results.html', methods=['GET', 'POST'])
+def neu_net_results():
+    return render_template("neural_network_results.html")
 
 if __name__ == "__main__":
     app.debug = True
