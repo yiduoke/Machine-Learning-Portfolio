@@ -1,65 +1,29 @@
+<!doctype html>
+<title>2 Dimensional Linear Regression</title>
+<h1>Run 2 Dimensional Linear Regression on Uploaded Data File!</h1>
+File's data should be formatted according to the following rules:
+<ul>
+	<li>Data points are separated by new lines.</li>
+	<li>The dimensions of each data point is separated by a comma.</li>
+</ul>
 
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-	<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title> Linear Regression </title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
-	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
-	<meta name="author" content="FREEHTML5.CO" />
+<br>
+Example data file contents:<br><br>
+6.1101,17.592<br>
+5.5277,9.1302<br>
+8.5186,13.662<br>
+7.0032,11.854<br>
+5.8598,6.8233<br>
+8.3829,11.886<br>
+7.4764,4.3483<br>
+8.5781,12<br>
+6.4862,6.5987<br>
+5.0546,3.8166<br>
+5.7107,3.2522<br>
 
-  <!-- 
-	//////////////////////////////////////////////////////
+<br>
 
-	FREE HTML5 TEMPLATE 
-	DESIGNED & DEVELOPED by FREEHTML5.CO
-		
-	Website: 		http://freehtml5.co/
-	Email: 			info@freehtml5.co
-	Twitter: 		http://twitter.com/fh5co
-	Facebook: 		https://www.facebook.com/fh5co
-
-	//////////////////////////////////////////////////////
-	 -->
-
-  	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
-
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico">
-
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700,900' rel='stylesheet' type='text/css'>
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700" rel="stylesheet">
-	
-
-
-	<!-- Modernizr JS -->
-	<!-- FOR IE9 below -->
-	<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
-
-	</head>
-	<body>
-		<form method="post" enctype="multipart/form-data">
-			<input type="file" name="files[]" />
-			<input type="submit" value="Upload File" name="submit" />
-		</form>
-		
-		<script src="../static/js/linear_regression.js"></script>
-	</body>
-</html>
-
+<form method=post enctype=multipart/form-data>
+  <input type=file name=file>
+  <input type=submit value=Upload>
+</form>

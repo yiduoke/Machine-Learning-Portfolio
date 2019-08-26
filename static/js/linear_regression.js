@@ -1,22 +1,24 @@
-const url = '/static/php/linear_regression.php'
-const form = document.querySelector('form')
+var fs = require('fs');
 
-form.addEventListener('submit', e => {
-  e.preventDefault()
+  if (fs.exists('scripts-ex1/plot.jpg') == true) {      
+    console.log('fs exists');		  
+	} else {
+	  console.log('Not Found!');   
+	}		       
 
-  const files = document.querySelector('[type=file]').files
-  const formData = new FormData()
+// function recursively_ajax(){
+//   console.log("begin");
+//   $.get("scripts-ex1/plot.jpg")
+//   .done(
+//     function() {
+//       results.setAttribute("src", "scripts-ex1/plot.jpg"); 
+//     }
+//   )
+//   .fail(
+//     function() {
+//       recursively_ajax();
+//     }
+//   )
+// }
 
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i]
-
-    formData.append('files[]', file)
-  }
-
-  fetch(url, {
-    method: 'POST',
-    body: formData,
-  }).then(response => {
-    console.log(response)
-  })
-})
+// recursively_ajax();
