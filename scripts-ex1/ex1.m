@@ -76,4 +76,4 @@ fprintf(' -3.6303\n  1.1664\n\n');
 hold on; % keep previous plot visible
 plot(X(:,2), X*theta, '-')
 legend('Training data', 'Linear regression')
-print -djpg plot.jpg
+print -djpg plot_ex1.jpg
