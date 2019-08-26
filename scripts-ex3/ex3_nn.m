@@ -19,12 +19,11 @@
 %% Initialization
 clear ; close all; clc
 
-pkg load img;
 % the workflow on the following lines is as follows:
 % .jpg (or .png or whatever) --> octave image --> grayscale --> doubles --> small image --> unroll --> neural network
+pkg load image;
 
-% I = imread("ex3upload.png");
-I = imread("rainbow.png");
+I = imread("ex3upload.png");
 G = rgb2gray(I);
 D = im2double(G);
 S = imresize(D, [20 20]);
@@ -58,6 +57,10 @@ load('ex3weights.mat');
 
 
 fprintf('\nDisplaying Example Image\n');
-displayData(flat);
 pred = predict(Theta1, Theta2, flat);
 fprintf('\nNeural Network Prediction: %d (digit %d)\n', pred, mod(pred, 10));
+
+filename = "output.txt";
+fid = fopen (filename, "w");
+fputs (fid, num2str(pred));
+fclose (fid);

@@ -108,17 +108,18 @@ def neural_network():
             myCmd += 'octave ex3_nn.m'
             subprocess.call(myCmd, shell=True) # this blocks
 
-            copyCmd = 'cd ' + UPLOAD_FOLDER_EX3 + ';'
-            # copyCmd += 'cp plot_ex2.jpg ../static'
-            # subprocess.call(copyCmd, shell=True)
-            # need to get the predicted number!
-
             return redirect('/neural_network_results.html')
     return render_template("neural_network.html")
 
 @app.route('/neural_network_results.html', methods=['GET', 'POST'])
 def neu_net_results():
-    return render_template("neural_network_results.html")
+    f = open("scripts-ex3/output.txt", "r")
+    output = f.read()
+    f.close()
+
+    if output == "10":
+        output = 0
+    return render_template("neural_network_results.html", number = output)
 
 if __name__ == "__main__":
     app.debug = True
