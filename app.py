@@ -159,6 +159,42 @@ def svm_results():
         output = "It's spam!"
     return render_template("svm_results.html", result = output)
 
+########################## K-Means ##############################
+UPLOAD_FOLDER_EX7 = 'scripts-ex7/'
+
+@app.route('/k-means.html', methods=['GET', 'POST'])
+def kmeans():
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_EX7
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename('ex7upload.png')
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            myCmd = 'cd ' + UPLOAD_FOLDER_EX7 + ';'
+            myCmd += 'octave ex7.m'
+            subprocess.call(myCmd, shell=True) # this blocks
+
+            copyCmd = 'cd ' + UPLOAD_FOLDER_EX7 + ';'
+            copyCmd += 'cp plot_ex7.jpg ../static'
+            subprocess.call(copyCmd, shell=True)
+
+            return redirect('/k-means_results.html')
+    return render_template("k-means.html")
+
+@app.route('/k-means_results.html', methods=['GET', 'POST'])
+def kmeans_results():
+    return render_template("k-means_results.html")
+
 
 if __name__ == "__main__":
     app.debug = True
