@@ -1,8 +1,6 @@
 import os, json, urllib2, sys, subprocess
-# from subprocess import call
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, flash
-import sqlite3
 
 UPLOAD_FOLDER_EX1 = 'scripts-ex1/'
 
