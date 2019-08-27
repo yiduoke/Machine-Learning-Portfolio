@@ -1,1 +1,2 @@
 gunicorn
+werkzeug==0.15.5
