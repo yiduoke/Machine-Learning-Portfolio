@@ -121,6 +121,47 @@ def neu_net_results():
         output = 0
     return render_template("neural_network_results.html", number = output)
 
+
+##########################Support Vector Machine##############################
+UPLOAD_FOLDER_EX6 = 'scripts-ex6/'
+
+@app.route('/svm.html', methods=['GET', 'POST'])
+def svm():
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_EX6
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename('ex6upload.txt')
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            myCmd = 'cd ' + UPLOAD_FOLDER_EX6 + ';'
+            myCmd += 'octave ex6_spam.m'
+            subprocess.call(myCmd, shell=True) # this blocks
+
+            return redirect('/svm_results.html')
+    return render_template("svm.html")
+
+@app.route('/svm_results.html', methods=['GET', 'POST'])
+def svm_results():
+    f = open("scripts-ex6/output.txt", "r")
+    content = f.read()
+    f.close()
+
+    output = "It's not spam!"
+    if content == "1":
+        output = "It's spam!"
+    return render_template("svm_results.html", result = output)
+
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
