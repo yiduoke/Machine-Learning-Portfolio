@@ -195,6 +195,42 @@ def kmeans():
 def kmeans_results():
     return render_template("k-means_results.html")
 
+########################## Anomaly Detection ##############################
+UPLOAD_FOLDER_EX8 = 'scripts-ex8/'
+
+@app.route('/anomaly_detection.html', methods=['GET', 'POST'])
+def anomaly_detection():
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_EX8
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename('ex8upload.mat')
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            myCmd = 'cd ' + UPLOAD_FOLDER_EX8 + ';'
+            myCmd += 'octave ex8.m'
+            subprocess.call(myCmd, shell=True) # this blocks
+
+            copyCmd = 'cd ' + UPLOAD_FOLDER_EX8 + ';'
+            copyCmd += 'cp plot_ex8.jpg ../static'
+            subprocess.call(copyCmd, shell=True)
+
+            return redirect('/anomaly_detection_results.html')
+    return render_template("anomaly_detection.html")
+
+@app.route('/anomaly_detection_results.html', methods=['GET', 'POST'])
+def anomaly_detection_results():
+    return render_template("anomaly_detection_results.html")
+
 
 if __name__ == "__main__":
     app.debug = True
