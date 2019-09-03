@@ -231,6 +231,44 @@ def anomaly_detection():
 def anomaly_detection_results():
     return render_template("anomaly_detection_results.html")
 
+########################## Collaborative Filtering ##############################
+UPLOAD_FOLDER_EX8 = 'scripts-ex8/'
+
+@app.route('/collaborative_filtering.html', methods=['GET', 'POST'])
+def collaborative_filtering():
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_EX8
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename('ex8upload.m')
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            myCmd = 'cd ' + UPLOAD_FOLDER_EX8 + ';'
+            myCmd += 'octave ex8_cofi.m'
+            subprocess.call(myCmd, shell=True) # this blocks
+
+            copyCmd = 'cd ' + UPLOAD_FOLDER_EX8 + ';'
+            copyCmd += 'cp ex8_movies.txt ../static'
+            subprocess.call(copyCmd, shell=True)
+
+            return redirect('/collaborative_filtering_results.html')
+    return render_template("collaborative_filtering.html")
+
+@app.route('/collaborative_filtering_results.html', methods=['GET', 'POST'])
+def collaborative_filtering_results():
+    fid = open("static/ex8_movies.txt", "r")
+    contents = fid.read()
+    return render_template("collaborative_filtering_results.html", recs = contents)
+
 
 if __name__ == "__main__":
     app.debug = True
